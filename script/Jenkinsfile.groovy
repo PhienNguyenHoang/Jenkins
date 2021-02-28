@@ -42,7 +42,9 @@ pipeline {
   stages {
 
     stage('Clean workspace') {
-      deleteDir()
+      steps {
+        deleteDir()
+      }
   }
 
     stage('Checkout') {

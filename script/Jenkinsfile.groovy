@@ -41,7 +41,7 @@ pipeline {
   stages {
     stage('Checkout') {
       steps {
-        dir('var/www/') {
+        dir('./') {
           checkout ( [$class: 'GitSCM',
             extensions: [[$class: 'CloneOption', timeout: 30]],
             branches: [[name: "${gitBranch}" ]],
@@ -54,7 +54,7 @@ pipeline {
 
     stage('Composer Install') {
       steps {
-        dir('var/www/') {
+        dir('./sample-project/') {
           sh """
             docker build -t phienhoangnguyen/thesis-phien-2021:\${BUILD_NUMBER} .
             docker push phienhoangnguyen/thesis-phien-2021:\${BUILD_NUMBER}
@@ -65,7 +65,7 @@ pipeline {
 
 	  stage('Deploy') { 
 	    steps {
-        dir('script/') {
+        dir('./') {
           sh """
             helm upgrade --install phien-java-app --set image.repository=phienhoangnguyen/thesis-phien-2021 --set image.tag=1 --set image.pullPolicy=Always --set tomcatPassword=2MNxLHqfIg bitnami/tomcat
           """

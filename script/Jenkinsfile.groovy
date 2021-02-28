@@ -85,6 +85,7 @@ pipeline {
 	    steps {
         dir('./') {
           sh """
+            helm repo update
             helm upgrade --install phien-java-app --set image.repository=phienhoangnguyen/thesis-phien-2021 --set image.tag=\${BUILD_NUMBER} --set image.pullPolicy=Always --set tomcatPassword=2MNxLHqfIg bitnami/tomcat
           """
         }
@@ -100,3 +101,5 @@ pipeline {
   } 
 
 } // End pipeline  
+
+            helm upgrade --install phien-java-app --set image.repository=phienhoangnguyen/thesis-phien-2021 --set image.tag=20 --set image.pullPolicy=Always --set tomcatPassword=2MNxLHqfIg bitnami/tomcat

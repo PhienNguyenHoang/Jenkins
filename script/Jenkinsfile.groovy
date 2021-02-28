@@ -56,7 +56,7 @@ pipeline {
           //   userRemoteConfigs: [[
           //     credentialsId: "6e08bd98-e13c-484a-945f-57c278ab6791",
           //     url: "https://github.com/ititiu14078/sample-project.git"]]])
-          git credentialsId: '6e08bd98-e13c-484a-945f-57c278ab6791' url: 'https://github.com/ititiu14078/sample-project.git', branch: '$gitBranch'
+          git credentialsId: '6e08bd98-e13c-484a-945f-57c278ab6791', url: 'https://github.com/ititiu14078/sample-project.git', branch: '$gitBranch'
         }
       }
     }

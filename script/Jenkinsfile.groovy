@@ -38,11 +38,13 @@ pipeline {
       )
   }
 
-  stage('Clean workspace') {
-    deleteDir()
-}
 
   stages {
+
+    stage('Clean workspace') {
+      deleteDir()
+  }
+
     stage('Checkout') {
       steps {
         dir('./') {

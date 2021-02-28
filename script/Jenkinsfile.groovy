@@ -66,8 +66,6 @@ pipeline {
         dir('./') {
           sh """
             docker build -t phienhoangnguyen/thesis-phien-2021:\${BUILD_NUMBER} .
-
-            docker push phienhoangnguyen/thesis-phien-2021:\${BUILD_NUMBER}
           """
         }
       }

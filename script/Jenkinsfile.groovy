@@ -38,6 +38,10 @@ pipeline {
       )
   }
 
+  stage('Clean workspace') {
+    deleteDir()
+}
+
   stages {
     stage('Checkout') {
       steps {

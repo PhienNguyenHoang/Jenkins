@@ -96,7 +96,7 @@ pipeline {
   post {
     always {
       cleanWs()
-      slackSend channel: "${SLACK_CHANNEL}", color: COLOR_MAP[currentBuild.currentResult] , message: "Deployment *`${currentBuild.currentResult}`* - ${env.JOB_NAME} #${env.BUILD_NUMBER} (<${env.BUILD_URL}/console|Open>)\nGit Branch: ${gitBranch} \n ${getChangeString()}"
+      slackSend channel: "${SLACK_CHANNEL}", color: COLOR_MAP[currentBuild.currentResult] , message: "Deployment *`${currentBuild.currentResult}`* - ${env.JOB_NAME} #${env.BUILD_NUMBER}"
     }
   } 
 

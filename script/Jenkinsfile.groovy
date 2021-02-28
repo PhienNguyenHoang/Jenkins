@@ -16,11 +16,6 @@ pipeline {
     KUBECONFIG="/home/cse/.kube/config"
   }
 
-  parameters {
-    string (name: "gitBranch", defaultValue: "prestage", description: "Branch to build")
-    string (name: "git_sha", defaultValue: "HEAD", description: "sha to build")
-  }
-
   triggers {
     GenericTrigger(
       genericVariables: [
@@ -31,15 +26,15 @@ pipeline {
 
       causeString: 'Triggered on $gitBranch',
 
-      token: 'trueprofile-api-build',
+      // token: 'trueprofile-api-build',
 
-      printContributedVariables: true,
-      printPostContent: true,
+      // printContributedVariables: true,
+      // printPostContent: true,
 
-      silentResponse: false,
+      // silentResponse: false,
 
-      regexpFilterText: '$gitBranch',
-      regexpFilterExpression: '^refs/heads/prestage'
+      // regexpFilterText: '$gitBranch',
+      // regexpFilterExpression: '^refs/heads/prestage'
       )
   }
 
@@ -51,8 +46,8 @@ pipeline {
             extensions: [[$class: 'CloneOption', timeout: 30]],
             branches: [[name: "${gitBranch}" ]],
             userRemoteConfigs: [[
-              credentialsId: "2ee2a10e-9745-476d-bcc5-0c0062b1de39",
-              url: "git@github.com:dataflowplus/api-trueprofile.io.git"]]])
+              credentialsId: "6e08bd98-e13c-484a-945f-57c278ab6791",
+              url: "https://github.com/ititiu14078/sample-project.git"]]])
         }
       }
     }
@@ -61,14 +56,8 @@ pipeline {
       steps {
         dir('var/www/') {
           sh """
-            cp \${WORKSPACE}/deployment/environment-pre-stage/api/Dockerfile .
-            cp \${WORKSPACE}/deployment/environment-pre-stage/api/docker-nginx-site.conf .
-            cp ~/.ssh/id_rsa .
-            aws s3 cp s3://trueprofile-infrastructure/deployment/environment-pre-stage/trueprofile/api/.env.local .env.local
-            aws ecr get-login  --no-include-email | xargs -0 bash -c
-            docker build -t 780917974971.dkr.ecr.ap-southeast-1.amazonaws.com/trueprofile-backend:prestage-\${BUILD_NUMBER} .
-            docker push 780917974971.dkr.ecr.ap-southeast-1.amazonaws.com/trueprofile-backend:prestage-\${BUILD_NUMBER}
-            docker rmi 780917974971.dkr.ecr.ap-southeast-1.amazonaws.com/trueprofile-backend:prestage-\${BUILD_NUMBER}
+            docker build -t phienhoangnguyen/thesis-phien-2021:\${BUILD_NUMBER} .
+            docker push phienhoangnguyen/thesis-phien-2021:\${BUILD_NUMBER}
           """
         }
       }
@@ -76,17 +65,9 @@ pipeline {
 
 	  stage('Deploy') { 
 	    steps {
-        dir('deployment/environment-pre-stage/api') {
+        dir('script/') {
           sh """
-            DOCKER_TAG="prestage"-\${BUILD_NUMBER}              
-            sed -i "s/__docker-tag__/\$DOCKER_TAG/g" values.yaml
-            sed -i "s/__hostname__/api.test.trueprofile.io/g" values.yaml
-            sed -i "s/__docker-tag__/\$DOCKER_TAG/g" values-worker.yaml
-            sed -i "s/__docker-tag__/\$DOCKER_TAG/g" values-cron.yaml
-            
-            helm upgrade prestage-backend --install \${WORKSPACE}/k8s-charts/hosting/backend-0.1.6.tgz -n pre-stage -f values.yaml
-           # helm upgrade prestage-worker --install \${WORKSPACE}/k8s-charts/hosting/backend-0.1.6.tgz -n pre-stage -f values-worker.yaml
-           # helm upgrade prestage-cron --install \${WORKSPACE}/k8s-charts/hosting/backend-0.1.6.tgz -n pre-stage -f values-cron.yaml
+            helm upgrade --install phien-java-app --set image.repository=phienhoangnguyen/thesis-phien-2021 --set image.tag=1 --set image.pullPolicy=Always --set tomcatPassword=2MNxLHqfIg bitnami/tomcat
           """
         }
       }

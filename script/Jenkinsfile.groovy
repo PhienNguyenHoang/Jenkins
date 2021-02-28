@@ -66,18 +66,20 @@ pipeline {
         dir('./') {
           sh """
             docker build -t phienhoangnguyen/thesis-phien-2021:\${BUILD_NUMBER} .
+            docker login -u phienhoangnguyen -p nothing@@
+            docker push phienhoangnguyen/thesis-phien-2021:\${BUILD_NUMBER}
           """
         }
       }
     }
 
-     stage('Push Image') {
-      steps {
-        withDockerRegistry([ credentialsId: "d783c462-a0ed-4d1c-9df3-aca9ef837a7e", url: "https://hub.docker.com/repository/docker/phienhoangnguyen/thesis-phien-2021" ]) {
-          bat "docker push phienhoangnguyen/thesis-phien-2021:\${BUILD_NUMBER}"
-        }
-      }
-    }
+    //  stage('Push Image') {
+    //   steps {
+    //     withDockerRegistry([ credentialsId: "d783c462-a0ed-4d1c-9df3-aca9ef837a7e", url: "https://hub.docker.com/repository/docker/phienhoangnguyen/thesis-phien-2021" ]) {
+    //       bat "docker push phienhoangnguyen/thesis-phien-2021:\${BUILD_NUMBER}"
+    //     }
+    //   }
+    // }
 
 	  stage('Deploy') { 
 	    steps {

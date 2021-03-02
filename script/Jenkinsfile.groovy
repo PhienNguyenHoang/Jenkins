@@ -28,13 +28,13 @@ pipeline {
 
       // token: 'trueprofile-api-build',
 
-      // printContributedVariables: true,
-      // printPostContent: true,
+      printContributedVariables: true,
+      printPostContent: true,
 
-      // silentResponse: false,
+      silentResponse: false,
 
-      // regexpFilterText: '$gitBranch',
-      // regexpFilterExpression: '^refs/heads/prestage'
+      regexpFilterText: '$gitBranch',
+      regexpFilterExpression: '^refs/heads/*'
       )
   }
 
@@ -96,7 +96,7 @@ pipeline {
   post {
     always {
       cleanWs()
-      slackSend channel: "${SLACK_CHANNEL}", color: COLOR_MAP[currentBuild.currentResult] , message: "Deployment *`${currentBuild.currentResult}`* - ${env.JOB_NAME} #${env.BUILD_NUMBER}"
+      slackSend channel: "${SLACK_CHANNEL}", color: COLOR_MAP[currentBuild.currentResult] , message: "Deployment *`${currentBuild.currentResult}`* - ${env.JOB_NAME} #${env.BUILD_NUMBER} - Branch: ${gitBranch}"
     }
   } 
 

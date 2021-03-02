@@ -1,6 +1,7 @@
 def COLOR_MAP = ['SUCCESS': 'good', 'FAILURE': 'danger', 'UNSTABLE': 'danger', 'ABORTED': 'danger']
 SLACK_CHANNEL='#devops'
 
+
 pipeline {
   agent any 
   options {
@@ -17,7 +18,7 @@ pipeline {
   }
 
    parameters {
-    string (name: "gitBranch", defaultValue: "master", description: "Branch to build")
+    string (name: "gitBranch", defaultValue: "${env.BRANCH_NAME}", description: "Branch to build")
     // string (name: "git_sha", defaultValue: "HEAD", description: "sha to build")
   }
 

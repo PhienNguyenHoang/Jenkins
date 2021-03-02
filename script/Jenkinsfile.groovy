@@ -16,16 +16,11 @@ pipeline {
     KUBECONFIG="/home/cse/.kube/config"
   }
 
-  parameters {
-    string (name: "gitBranch", defaultValue: "master", description: "Branch to build")
-    // string (name: "git_sha", defaultValue: "HEAD", description: "sha to build")
-  }
-
   triggers {
     GenericTrigger(
       genericVariables: [
         [key: 'gitBranch', value: '$.ref'],
-        // [key: 'git_sha', value: '$.after'],
+        [key: 'git_sha', value: '$.after'],
         //[key: 'changed_files', value: '$.commits[*].["modified","added","removed"][*]']
       ],
 
